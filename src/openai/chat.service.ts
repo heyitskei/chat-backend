@@ -1,8 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class ChatService {
+  constructor(private prisma: PrismaService) {}
+
+  async saveMessage(content: string, sender: 'user' | 'bot') {
+    return this.prisma.message.create({
+      data: {
+        content,
+        sender,
+        createdAt: new Date(),
+      },
+    });
+  }
   async getChatResponse(message: string): Promise<string> {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {

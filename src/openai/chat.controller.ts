@@ -8,6 +8,12 @@ export class ChatController {
   @Post()
   @HttpCode(200)
   async getResponse(@Body('message') message: string): Promise<string> {
-    return this.chatService.getChatResponse(message);
+    await this.chatService.saveMessage(message, 'user');
+
+    const response = await this.chatService.getChatResponse(message);
+
+    await this.chatService.saveMessage(response, 'bot');
+
+    return response;
   }
 }
