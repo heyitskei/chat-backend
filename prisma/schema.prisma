@@ -24,6 +24,4 @@ model Message {
   content     String
   sender      String
   createdAt   DateTime
-  // sender   Character @relation(fields: [senderId], references: [id])
-  // senderId Int
 }

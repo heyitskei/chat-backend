@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { PrismaService } from '../../prisma/prisma.service';
+import { Message } from '@prisma/client';
 
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
+
+  async getAllMessages(): Promise<Message[]> {
+    return this.prisma.message.findMany({
+      orderBy: { createdAt: 'asc' },
+    });
+  }
 
   async saveMessage(content: string, sender: 'user' | 'bot') {
     return this.prisma.message.create({

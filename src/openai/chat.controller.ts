@@ -1,5 +1,6 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { ChatService } from './chat.service';
+import { Message } from '@prisma/client';
 
 @Controller('chat')
 export class ChatController {
@@ -15,5 +16,10 @@ export class ChatController {
     await this.chatService.saveMessage(response, 'bot');
 
     return response;
+  }
+
+  @Get('/messages')
+  async getAllMessages(): Promise<Message[]> {
+    return this.chatService.getAllMessages();
   }
 }
